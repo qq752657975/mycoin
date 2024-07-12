@@ -1,0 +1,8 @@
+Name: ucenter-api
+Host: 127.0.0.1
+Port: 8888
+UCenterRpc:
+  Etcd:
+    Hosts:
+      - 10.211.11.10:2379
+    Key: ucenter.rpc

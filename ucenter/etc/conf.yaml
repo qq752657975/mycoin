@@ -1,0 +1,14 @@
+Name: ucenter.rpc
+ListenOn: 0.0.0.0:8081
+Etcd:
+  Hosts:
+  - 10.211.11.10:2379
+  Key: ucenter.rpc
+Mysql:
+  DataSource: root:root@tcp(10.211.11.10:3306)/mycoin?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+  - Host: 10.211.11.10:6379
+    Type: node
+Captcha:
+  Vid : aaa
+  Key: aaa
