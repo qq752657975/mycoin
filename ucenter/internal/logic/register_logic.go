@@ -66,19 +66,18 @@ func (l *RegisterLogic) RegisterByPhone(in *register.RegReq) (*register.RegRes, 
 		return nil, errors.New("手机号已经被注册")
 	}
 	//存入数据库
-	//err = l.MemberDomain.Register(
-	//	ctx,
-	//	in.Username,
-	//	in.Phone,
-	//	in.Password,
-	//	in.Country,
-	//	in.Promotion,
-	//	in.SuperPartner,
-	//)
+	err = l.MemberDomain.Register(
+		ctx,
+		in.Username,
+		in.Phone,
+		in.Password,
+		in.Country,
+		in.Promotion,
+		in.SuperPartner,
+	)
 	if err != nil {
-		return nil, errors.New("注册失败")
+		return nil, errors.New(err.Error())
 	}
-
 	return &register.RegRes{}, nil
 }
 

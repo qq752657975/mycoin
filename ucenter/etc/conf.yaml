@@ -12,3 +12,6 @@ CacheRedis:
 Captcha:
   Vid : aaa
   Key: aaa
+JWT:
+  AccessSecret: "!@#$mycoin"
+  AccessExpire: 604800

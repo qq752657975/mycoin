@@ -10,6 +10,12 @@ type Config struct {
 	CacheRedis cache.CacheConf
 	Mysql      MysqlConfig
 	Captcha    CaptchaConf
+	JWT        AuthConfig
+}
+
+type AuthConfig struct {
+	AccessSecret string
+	AccessExpire int64
 }
 
 type CaptchaConf struct {

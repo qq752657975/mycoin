@@ -20,6 +20,6 @@ func ConnMysql(dsn string) *mydb.MsDB {
 	db.SetMaxOpenConns(100)
 	db.SetMaxIdleConns(10)
 	return &mydb.MsDB{
-		DB: _db,
+		Conn: _db,
 	}
 }
