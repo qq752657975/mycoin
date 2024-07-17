@@ -5,4 +5,7 @@ use (
 	ucenter
 	ucenter-api
 	mycoin-common
+	jobcenter
+	market-api
+	market
 )

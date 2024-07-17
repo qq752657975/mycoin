@@ -1,0 +1,16 @@
+Name: market.rpc
+ListenOn: 127.0.0.1:8082
+Etcd:
+  Hosts:
+    - 10.211.11.10:2379
+  Key: market.rpc
+Mysql:
+  DataSource: root:root@tcp(10.211.11.10:3306)/market?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+  - Host: 10.211.11.10:6379
+    Type: node
+Mongo:
+  Url: "mongodb://10.211.11.10:27017"
+  Username: "root"
+  Password: "root"
+  DataBase: "mycoin"

@@ -10,8 +10,8 @@ CacheRedis:
   - Host: 10.211.11.10:6379
     Type: node
 Captcha:
-  Vid : aaa
-  Key: aaa
+  Vid : 6693b71fd3784602950e9552
+  Key: 7a1b9498a2604bed8df2f9dfde5c4d32
 JWT:
   AccessSecret: "!@#$mycoin"
   AccessExpire: 604800
