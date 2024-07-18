@@ -101,3 +101,7 @@ type Coin struct {
 	Information       string  `json:"information" from:"information"`
 	MinRechargeAmount float64 `json:"minRechargeAmount" from:"minRechargeAmount"`
 }
+
+type HistoryKline struct {
+	List [][]any
+}
