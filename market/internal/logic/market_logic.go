@@ -46,7 +46,7 @@ func (l *MarketLogic) FindSymbolInfo(req *market.MarketReq) (*market.ExchangeCoi
 		return nil, err
 	}
 	ec := &market.ExchangeCoin{}
-	copier.Copy(ec, exchangeCoin)
+	_ = copier.Copy(ec, exchangeCoin)
 	return ec, nil
 }
 

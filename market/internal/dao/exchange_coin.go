@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"errors"
 	"gorm.io/gorm"
 	"market/internal/model"
 	mydb "mycoin-common/msdb"
@@ -16,7 +17,7 @@ func (e *ExchangeCoinDao) FindBySymbol(ctx context.Context, symbol string) (*mod
 	session := e.conn.Session(ctx)
 	data := &model.ExchangeCoin{}
 	err := session.Model(&model.ExchangeCoin{}).Where("symbol=?", symbol).Take(data).Error
-	if err != nil && err == gorm.ErrRecordNotFound {
+	if err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}
 	return data, err

@@ -17,24 +17,82 @@ type MarketLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-func (l MarketLogic) SymbolThumbTrend(req *types.MarketReq) (resp []*types.CoinThumbResp, err error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+func (l *MarketLogic) SymbolThumbTrend(req *types.MarketReq) (list []*types.CoinThumbResp, err error) {
+	var thumbs []*market.CoinThumb
+	thumb := l.svcCtx.Processor.GetThumb()
+	isCache := false
+	if thumb != nil {
+		switch thumb.(type) {
+		case []*market.CoinThumb:
+			thumbs = thumb.([]*market.CoinThumb)
+			isCache = true
+		}
+	}
+	if !isCache {
+		ctx, cancelFunc := context.WithTimeout(l.ctx, 10*time.Second)
+		defer cancelFunc()
+		symbolThumbRes, err := l.svcCtx.MarketRpc.FindSymbolThumbTrend(ctx,
+			&market.MarketReq{
+				Ip: req.Ip,
+			})
+		if err != nil {
+			return nil, err
+		}
+		thumbs = symbolThumbRes.List
+	}
+	if err := copier.Copy(&list, thumbs); err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (l *MarketLogic) SymbolThumb(req *types.MarketReq) (list []*types.CoinThumbResp, err error) {
+	var thumbs []*market.CoinThumb
+	thumb := l.svcCtx.Processor.GetThumb()
+	if thumb != nil {
+		switch thumb.(type) {
+		case []*market.CoinThumb:
+			thumbs = thumb.([]*market.CoinThumb)
+		}
+	}
+	if err := copier.Copy(&list, thumbs); err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (l *MarketLogic) SymbolInfo(req types.MarketReq) (resp *types.ExchangeCoinResp, err error) {
+	ctx, cancelFunc := context.WithTimeout(l.ctx, 10*time.Second)
+	defer cancelFunc()
+	esRes, err := l.svcCtx.MarketRpc.FindSymbolInfo(ctx,
+		&market.MarketReq{
+			Ip:     req.Ip,
+			Symbol: req.Symbol,
+		})
+	if err != nil {
+		return nil, err
+	}
+	resp = &types.ExchangeCoinResp{}
+	if err := copier.Copy(resp, esRes); err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (l *MarketLogic) CoinInfo(req *types.MarketReq) (*types.Coin, error) {
+	ctx, cancel := context.WithTimeout(l.ctx, 5*time.Second)
 	defer cancel()
-	thumbResp, err := l.svcCtx.MarketRpc.FindSymbolThumbTrend(ctx, &market.MarketReq{
-		Ip: req.Ip,
+	coin, err := l.svcCtx.MarketRpc.FindCoinInfo(ctx, &market.MarketReq{
+		Unit: req.Unit,
 	})
 	if err != nil {
 		return nil, err
 	}
-	if err := copier.Copy(&resp, thumbResp.List); err != nil {
+	ec := &types.Coin{}
+	if err := copier.Copy(&ec, coin); err != nil {
 		return nil, errors.New("数据格式有误")
 	}
-	for _, v := range resp {
-		if v.Trend == nil {
-			v.Trend = []float64{}
-		}
-	}
-	return
+	return ec, nil
 }
 
 func NewMarketLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MarketLogic {
