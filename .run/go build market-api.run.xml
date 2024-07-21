@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build market-api" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+    <module name="mycoin" />
+    <working_directory value="$PROJECT_DIR$/market-api" />
+    <kind value="PACKAGE" />
+    <package value="market-api" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/market-api/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

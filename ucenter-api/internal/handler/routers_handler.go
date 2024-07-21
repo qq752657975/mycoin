@@ -2,6 +2,7 @@
 package handler
 
 import (
+	"ucenter-api/internal/midd"
 	"ucenter-api/internal/svc"
 )
 
@@ -15,4 +16,8 @@ func RegisterHandlers(r *Routers, serverCtx *svc.ServiceContext) {
 	loginGroup := r.Group()
 	loginGroup.Post("/uc/login", login.Login)
 	loginGroup.Get("/uc/check/login", login.CheckLogin)
+	assetGroup := r.Group()
+	assetGroup.Use(midd.Auth(serverCtx.Config.JWT.AccessSecret))
+	asset := NewAssetHandler(serverCtx)
+	assetGroup.Post("/uc/asset/wallet/:coinName", asset.FindWalletBySymbol)
 }

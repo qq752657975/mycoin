@@ -8,7 +8,8 @@ import (
 type Config struct {
 	rest.RestConf
 	UCenterRpc zrpc.RpcClientConf
-	JWT        AuthConfig
+
+	JWT AuthConfig
 }
 
 type AuthConfig struct {

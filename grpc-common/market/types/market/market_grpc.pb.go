@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.25.1
-// source: market.proto
+// source: order.proto
 
 package market
 
@@ -317,5 +317,5 @@ var Market_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "market.proto",
+	Metadata: "order.proto",
 }

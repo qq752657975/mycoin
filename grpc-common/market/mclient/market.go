@@ -1,5 +1,5 @@
 // Code genemarketd by goctl. DO NOT EDIT.
-// Source: market.proto
+// Source: order.proto
 
 package mclient
 

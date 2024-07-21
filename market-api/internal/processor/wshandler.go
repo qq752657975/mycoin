@@ -34,7 +34,7 @@ func (w *WebsocketHandler) HandleKLine(symbol string, kline *model.Kline, thumbM
 	}
 	coinThumb := kline.ToCoinThumb(symbol, thumb)
 	result := &model.CoinThumb{}
-	_ = copier.Copy(result, coinThumb)
+	copier.Copy(result, coinThumb)
 	marshal, _ := json.Marshal(result)
 	w.wsServer.BroadcastToNamespace("/", "/topic/market/thumb", string(marshal))
 
