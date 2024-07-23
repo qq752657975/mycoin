@@ -1,4 +1,4 @@
-package kline
+package logic
 
 import (
 	"encoding/json"
@@ -88,7 +88,7 @@ func (k *Kline) getKlineData(instId string, symbol string, period string) {
 				k.queueDomain.Send1mKline(data, symbol)
 				//放入redis 将其最新的价格
 				key := strings.ReplaceAll(instId, "-", "::")
-				k.ch.Set(key+"::RATE", data[4])
+				_ = k.ch.Set(key+"::RATE", data[4])
 			}
 		}
 	}

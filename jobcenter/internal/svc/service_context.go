@@ -19,7 +19,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	redisCache := cache.New(
 		c.CacheRedis,
 		nil,
-		cache.NewStat("mscoin"),
+		cache.NewStat("mycoin"),
 		nil,
 		func(o *cache.Options) {})
 	return &ServiceContext{

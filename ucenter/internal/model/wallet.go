@@ -27,9 +27,9 @@ func (*MemberWallet) TableName() string {
 
 func (w *MemberWallet) Copy(coinInfo *mclient.Coin) *MemberWalletCoin {
 	mc := &MemberWalletCoin{}
-	copier.Copy(mc, w)
+	_ = copier.Copy(mc, w)
 	coin := &market.Coin{}
-	copier.Copy(coin, coinInfo)
+	_ = copier.Copy(coin, coinInfo)
 	mc.Coin = coin
 	return mc
 }

@@ -67,6 +67,12 @@ func (m *MemberWalletDao) FindByIdAndCoinId(ctx context.Context, memId int64, co
 	return
 }
 
+func (m *MemberWalletDao) FindByMemberId(ctx context.Context, memId int64) (list []*model.MemberWallet, err error) {
+	session := m.conn.Session(ctx)
+	err = session.Model(&model.MemberWallet{}).Where("member_id=?", memId).Find(&list).Error
+	return
+}
+
 func NewMemberWalletDao(db *mydb.MsDB) *MemberWalletDao {
 	return &MemberWalletDao{
 		conn: gorms.New(db.Conn),

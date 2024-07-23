@@ -8,6 +8,8 @@ import (
 	"grpc-common/market/mclient"
 	mydb "mycoin-common/msdb"
 	"mycoin-common/msdb/tran"
+	"mycoin-common/op"
+	"mycoin-common/tools"
 	"ucenter/internal/dao"
 	"ucenter/internal/model"
 	"ucenter/internal/repo"
@@ -86,6 +88,45 @@ func (d *MemberWalletDomain) FindWalletByMemIdAndCoinId(ctx context.Context, mem
 		return nil, err
 	}
 	return mw, nil
+}
+
+func (d *MemberWalletDomain) FindWallet(ctx context.Context, userId int64) (list []*model.MemberWalletCoin, err error) {
+	memberWallets, err := d.memberWalletRepo.FindByMemberId(ctx, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	//查询cny的汇率
+	var cnyRateStr string
+	_ = d.redisCache.Get("USDT::CNY::RATE", &cnyRateStr)
+	var cnyRate float64 = 7
+	if cnyRateStr != "" {
+		cnyRate = tools.ToFloat64(cnyRateStr)
+	}
+	//需要查询 币种的详情
+	for _, v := range memberWallets {
+		coinInfo, err := d.marketRpc.FindCoinInfo(ctx, &mclient.MarketReq{
+			Unit: v.CoinName,
+		})
+		if err != nil {
+			return nil, err
+		}
+		if coinInfo.Unit == "USDT" {
+			coinInfo.CnyRate = cnyRate
+			coinInfo.UsdRate = 1
+		} else {
+			var usdtRateStr string
+			var usdtRate float64 = 20000
+			_ = d.redisCache.Get(v.CoinName+"::USDT::RATE", &usdtRateStr)
+			if usdtRateStr != "" {
+				usdtRate = tools.ToFloat64(usdtRateStr)
+			}
+			coinInfo.UsdRate = usdtRate
+			coinInfo.CnyRate = op.MulFloor(cnyRate, coinInfo.UsdRate, 10)
+		}
+		list = append(list, v.Copy(coinInfo))
+	}
+	return list, nil
 }
 
 func NewMemberWalletDomain(db *mydb.MsDB, marketRpc mclient.Market, redisCache cache.Cache) *MemberWalletDomain {

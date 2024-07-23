@@ -16,10 +16,10 @@ Kafka:
 CacheRedis:
   - Host: 10.211.11.10:6379
     Type: node
-#UCenterRpc:
-#  Etcd:
-#    Hosts:
-#      - 127.0.0.1:2379
-#    Key: ucenter.rpc
-#Bitcoin:
-#  Address: http://127.0.0.1:18332
+UCenterRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: ucenter.rpc
+Bitcoin:
+  Address: http://127.0.0.1:18332

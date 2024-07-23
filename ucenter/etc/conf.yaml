@@ -7,7 +7,7 @@ Etcd:
 Mysql:
   DataSource: root:root@tcp(10.211.11.10:3306)/mycoin?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 CacheRedis:
-  - Host: 127.0.0.1:6379
+  - Host: 10.211.11.10:6379
     Type: node
 Captcha:
   Vid: 63fec1c3507890ee2e7f9dd1

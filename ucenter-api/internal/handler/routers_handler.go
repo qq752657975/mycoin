@@ -15,9 +15,10 @@ func RegisterHandlers(r *Routers, serverCtx *svc.ServiceContext) {
 	login := NewLoginHandler(serverCtx)
 	loginGroup := r.Group()
 	loginGroup.Post("/uc/login", login.Login)
-	loginGroup.Get("/uc/check/login", login.CheckLogin)
+	loginGroup.Post("/uc/check/login", login.CheckLogin)
 	assetGroup := r.Group()
 	assetGroup.Use(midd.Auth(serverCtx.Config.JWT.AccessSecret))
 	asset := NewAssetHandler(serverCtx)
 	assetGroup.Post("/uc/asset/wallet/:coinName", asset.FindWalletBySymbol)
+	assetGroup.Post("/uc/asset/wallet", asset.FindWallet)
 }
