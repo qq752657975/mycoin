@@ -25,18 +25,18 @@ func (*MemberTransaction) TableName() string {
 }
 
 const (
-	RECHARGE          = iota // 充值
-	WITHDRAW                 // 提现
-	TRANSFER_ACCOUNTS        //转账
-	EXCHANGE                 //币币交易
+	RECHARGE         = iota // 充值
+	WITHDRAW                // 提现
+	TransferAccounts        //转账
+	EXCHANGE                //币币交易
 
 )
 
 var TypeMap = enum.Enum{
-	RECHARGE:          "RECHARGE",
-	WITHDRAW:          "WITHDRAW",
-	TRANSFER_ACCOUNTS: "TRANSFER_ACCOUNTS",
-	EXCHANGE:          "EXCHANGE",
+	RECHARGE:         "RECHARGE",
+	WITHDRAW:         "WITHDRAW",
+	TransferAccounts: "TRANSFER_ACCOUNTS",
+	EXCHANGE:         "EXCHANGE",
 }
 
 type MemberTransactionVo struct {
@@ -55,7 +55,7 @@ type MemberTransactionVo struct {
 
 func (mt *MemberTransaction) ToVo() *MemberTransactionVo {
 	vo := &MemberTransactionVo{}
-	copier.Copy(vo, mt)
+	_ = copier.Copy(vo, mt)
 	vo.CreateTime = tools.ToTimeString(mt.CreateTime)
 	vo.Type = TypeMap.Value(mt.Type)
 	return vo

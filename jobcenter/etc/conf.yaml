@@ -19,7 +19,7 @@ CacheRedis:
 UCenterRpc:
   Etcd:
     Hosts:
-      - 127.0.0.1:2379
+      - 10.211.11.10:2379
     Key: ucenter.rpc
 Bitcoin:
   Address: http://127.0.0.1:18332

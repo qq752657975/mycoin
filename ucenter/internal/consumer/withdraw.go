@@ -20,7 +20,7 @@ func WithdrawConsumer(kafkaCli *database.KafkaClient, db *mydb.MsDB, address str
 	for {
 		kafkaData := kafkaCli.Read()
 		var wr model.WithdrawRecord
-		json.Unmarshal(kafkaData.Data, &wr)
+		_ = json.Unmarshal(kafkaData.Data, &wr)
 		ctx := context.Background()
 		err := withdrawDomain.Withdraw(ctx, wr)
 		if err != nil {

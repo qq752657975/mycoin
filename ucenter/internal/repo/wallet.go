@@ -14,4 +14,5 @@ type MemberWalletRepo interface {
 	FindByAddress(ctx context.Context, address string) (*model.MemberWallet, error)
 	FindByIdAndCoinId(ctx context.Context, memberId int64, coinId int64) (*model.MemberWallet, error)
 	FindByMemberId(ctx context.Context, memId int64) ([]*model.MemberWallet, error)
+	UpdateAddress(ctx context.Context, wallet *model.MemberWallet) error
 }

@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"errors"
 	"gorm.io/gorm"
 	mydb "mycoin-common/msdb"
 	"mycoin-common/msdb/gorms"
@@ -28,7 +29,7 @@ func (d *MemberTransactionDao) FindByAmountAndTime(
 	err = session.Model(&model.MemberTransaction{}).
 		Where("address=? and amount=? and create_time=?", address, value, time).
 		Limit(1).Take(&mt).Error
-	if err == gorm.ErrRecordNotFound {
+	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}
 	return

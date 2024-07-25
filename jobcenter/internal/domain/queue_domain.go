@@ -8,6 +8,7 @@ import (
 )
 
 const KLINE1M = "kline_1m"
+const BtcTransactionTopic = "BTC_TRANSACTION"
 
 type QueueDomain struct {
 	cli *database.KafkaClient
@@ -23,6 +24,22 @@ func (d *QueueDomain) Send1mKline(data []string, symbol string) {
 	}
 	d.cli.Send(msg)
 	log.Println("=================发送数据成功==============")
+}
+
+func (d *QueueDomain) SendRecharge(value float64, address string, time int64) {
+	data := make(map[string]any)
+	data["value"] = value
+	data["address"] = address
+	data["time"] = time
+	data["type"] = model.RECHARGE
+	data["symbol"] = "BTC"
+	marshal, _ := json.Marshal(data)
+	msg := database.KafkaData{
+		Topic: BtcTransactionTopic,
+		Data:  marshal,
+		Key:   []byte(address),
+	}
+	d.cli.Send(msg)
 }
 
 func NewQueueDomain(cli *database.KafkaClient) *QueueDomain {
