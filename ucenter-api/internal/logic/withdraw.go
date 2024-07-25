@@ -67,7 +67,7 @@ func (w *Withdraw) QueryWithdrawCoin(req *types.WithdrawReq) ([]*types.WithdrawW
 			return nil, err
 		}
 		var addressList []types.AddressSimple
-		copier.Copy(&addressList, addressSimpleList.List)
+		_ = copier.Copy(&addressList, addressSimpleList.List)
 		ww.Addresses = addressList
 		wwList[i] = &ww
 	}
